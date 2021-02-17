@@ -1,0 +1,71 @@
+.App {
+
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.Margin-Top {
+    margin-top: 1rem;
+}
+
+.Status-Height {
+    height: 250px;
+    margin-top:5px;
+}
+
+.Dfd-Buttons {
+    background:none;border:none;
+    margin:10px
+}
+
+.GameElementText {
+    color: black;
+    font-weight:bold;
+}
+
+.GameDateText {
+    font-size:12px
+}
+
+.VerticalCenter {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.ChartCard {
+    height:300px;
+    margin-top: 5px;
+}
+
+.Users {
+    min-height:500px;
+    
+}
+
+*::-webkit-scrollbar {
+    width:8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #aaaaaa;
+    border-radius: 10px;
+}

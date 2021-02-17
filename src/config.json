@@ -1,0 +1,4 @@
+{
+    "authApiBase":"https://devsdk.net/api/dfd/auth",
+    "v1ApiBase":"https://devsdk.net/api/dfd/v1"
+}
