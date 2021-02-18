@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -37,12 +39,18 @@ module.exports = {
                 ],
             },
         ],
+
     },
     resolve: {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns : [
+                {from: 'public/static', to: 'static' },
+            ]
+        }),
         new HtmlWebpackPlugin({
             template: 'public/index.html',
         })
@@ -71,5 +79,8 @@ module.exports = {
                 },
             },
         },
+        minimizer: [new TerserPlugin({
+            extractComments: false,
+        })],
     }
 };
