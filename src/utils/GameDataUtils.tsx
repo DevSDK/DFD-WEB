@@ -30,8 +30,10 @@ export type HeatMapPerYear = { [name: number]: IHeatMapData[] }
 
 export type TotalMapWithQueueID = { [name: string]: ICountAndWin }
 
+export type HeatmapDataType = { name: number; data: number[] }
+
 class GameDataUtils {
-    static ConvertFromQueueID(id: string) {
+    static ConvertFromQueueID(id: string) : string {
         if (id === "430") {
             return "일반"
         }
@@ -48,8 +50,8 @@ class GameDataUtils {
     }
 
     static GetTotalMapWithQueueID(data: any): TotalMapWithQueueID {
-        var GameCountsMap: TotalMapWithQueueID = {}
-        for (var v of data) {
+        const GameCountsMap: TotalMapWithQueueID = {}
+        for (const v of data) {
             if (GameCountsMap[v["queueid"]] == undefined) {
                 GameCountsMap[v["queueid"]] = { win: 0, count: 0 }
             }
@@ -60,14 +62,14 @@ class GameDataUtils {
     }
 
     static GetDailyWinRaitoMap(data: any): IChartData[] {
-        var GameResultsByQueueids: { [name: string]: any } = {}
-        var ResultChartData = []
-        var totalGameCount = 0
-        var totalWinCount = 0
-        var GameCountWithoutQueueID: { [name: number]: any } = {}
-        var GameWinChartData = []
-        var date = new Date()
-        for (var v of data) {
+        const GameResultsByQueueids: { [name: string]: any } = {}
+        const ResultChartData = []
+        let totalGameCount = 0
+        let totalWinCount = 0
+        const GameCountWithoutQueueID: { [name: number]: any } = {}
+        const GameWinChartData = []
+        const date = new Date()
+        for (const v of data) {
             date.setFullYear(v["year"])
             date.setMonth(v["month"] - 1)
             date.setDate(v["day"])
@@ -101,13 +103,13 @@ class GameDataUtils {
     static GetFrequencyArray(data: any): HeatMapPerYear {
         // TODO(0xdevssh) : Templately, This is hard coded for year 2021.
         // In 2022, It'll not count any values. So We should add proper handling.
-        var years = [2021]
+        const years = [2021]
 
-        var HeatMapData: { [name: number]: any } = {}
-        var totalGames: { [name: number]: number } = {}
-        var date = new Date()
+        const HeatMapData: { [name: number]: HeatmapDataType[] } = {}
+        const totalGames: { [name: number]: number } = {}
+        const date = new Date()
 
-        for (var v of data) {
+        for (const v of data) {
             date.setFullYear(v["year"])
             date.setMonth(v["month"])
             date.setDate(v["day"])
@@ -117,11 +119,11 @@ class GameDataUtils {
             totalGames[date.getTime()] += v.count
 
         }
-        for (var y = 0; y < years.length; y++) {
-            var yearData = []
-            for (var i = 12; i >= 1; i--) {
-                var monthData = []
-                for (var j = 1; j <= 31; j++) {
+        for (let y = 0; y < years.length; y++) {
+            const yearData = []
+            for (let i = 12; i >= 1; i--) {
+                const monthData = []
+                for (let j = 1; j <= 31; j++) {
                     date.setFullYear(years[y])
                     date.setMonth(i)
                     date.setDate(j)

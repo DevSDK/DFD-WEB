@@ -1,8 +1,8 @@
-import React, { Component, CSSProperties } from 'react';
+import React, { Component, CSSProperties, ReactNode } from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Spinner, Container, Row, Col, Button, Badge, Card } from 'react-bootstrap/';
-import GameDataUtils, { IGame, IHeatMapData, IChartData, TotalMapWithQueueID, ICountAndWin } from "../utils/GameDataUtils"
+import { Spinner, Container, Row, Col, Card } from 'react-bootstrap/';
+import GameDataUtils, { IGame, IHeatMapData, IChartData, ICountAndWin } from "../utils/GameDataUtils"
 
 import APIUtil from '../utils/API';
 import LOLGameList from '../Components/Games/GameList'
@@ -29,23 +29,23 @@ class MainPage extends Component<any, IState> {
             TotalGameCountData: Map()
         }
     }
-    async processData(data: any) {
-
+    async processData(data: any) : Promise<void>  {
         (async () => {
             //FIXME: Hrad Coded year
-            var HeatMap = GameDataUtils.GetFrequencyArray(data["data"])
+            const HeatMap = GameDataUtils.GetFrequencyArray(data["data"])
             this.setState({ HeatmapData: this.state.HeatmapData.concat(HeatMap[2021]) })
         })();
         (async () => {
-            var WinRaitoData = GameDataUtils.GetDailyWinRaitoMap(data["data"])
+            const WinRaitoData = GameDataUtils.GetDailyWinRaitoMap(data["data"])
             this.setState({ ResultChartData: this.state.ResultChartData.concat(WinRaitoData) })
         })();
         (async () => {
-            var WinCountMapData = GameDataUtils.GetTotalMapWithQueueID(data["data"])
+            const WinCountMapData = GameDataUtils.GetTotalMapWithQueueID(data["data"])
             this.setState({ TotalGameCountData: this.state.TotalGameCountData.concat(WinCountMapData) })
         })();
     }
-    async requestAndSetState() {
+
+    async requestAndSetState() : Promise<void> {
         APIUtil.get(configs.v1ApiBase + "/lol/histories").then(gamedata => {
             this.setState({ gamelist: this.state.gamelist.concat(gamedata["games"]) })
         })
@@ -54,15 +54,15 @@ class MainPage extends Component<any, IState> {
         })
     }
 
-    componentDidMount() {
+    componentDidMount() : void{
         this.requestAndSetState()
     }
 
-    render() {
+    render() : ReactNode {
         const centerStyle: CSSProperties = { position: "absolute", top: "47%", left: "47%", translate: "translate(-50%, -50%)" }
-        var heatmap = <Spinner style={centerStyle} animation="grow" />
-        var GameList = <Spinner style={centerStyle} animation="grow" />
-        var ResultChart = <Spinner style={centerStyle} animation="grow" />
+        let heatmap = <Spinner style={centerStyle} animation="grow" />
+        let GameList = <Spinner style={centerStyle} animation="grow" />
+        let ResultChart = <Spinner style={centerStyle} animation="grow" />
 
         if (this.state.HeatmapData.size > 0)
             heatmap = <LOLFrequencyChart HeatmapData={this.state.HeatmapData}></LOLFrequencyChart>
@@ -75,20 +75,20 @@ class MainPage extends Component<any, IState> {
             ResultChart = <LOLResultChart ResultData={this.state.ResultChartData}></LOLResultChart>
         }
 
-        var TotalWinRatoElement = <Spinner animation="border" />
-        var ElementPerGames = <div></div>
+        let TotalWinRatoElement = <Spinner animation="border" />
+        let ElementPerGames = <div></div>
         if (Object.keys(this.state.TotalGameCountData.toJS()).length > 0) {
-            var total = 0;
-            var total_win = 0;
-            var elements = []
+            let total = 0;
+            let total_win = 0;
+            const elements = []
             for (const [key, value] of Object.entries(this.state.TotalGameCountData.toJS())) {
                 total += value.count
                 total_win += value.win
-                var percent = Math.floor((value.win / value.count) * 100)
+                const percent = Math.floor((value.win / value.count) * 100)
                 elements.push(<span key={key} style={{ color: "grey", fontSize: "12px" }}>&nbsp;
                 {GameDataUtils.ConvertFromQueueID(key)} : {value.win}W {value.count - value.win}L {value.count}G({percent}%) </span>)
             }
-            var TotalWinWinraito = Math.floor((total_win / total) * 100)
+            const TotalWinWinraito = Math.floor((total_win / total) * 100)
             TotalWinRatoElement = <h5 style={{ textAlign: "center", marginTop: "-5px" }}>Total: {total_win}W {total - total_win}L {total}G({TotalWinWinraito}%)</h5>
             ElementPerGames = <div> {elements} </div>
         }

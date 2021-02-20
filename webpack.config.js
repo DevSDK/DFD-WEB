@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: {
         main:'./src/index.tsx',
         vendor: ["react", "redux"]
@@ -59,14 +59,15 @@ module.exports = {
         host: 'localhost',
         port: 3000,
         hot: true,
-        historyApiFallback: true
+        historyApiFallback: {
+            index:"/dfd"
+        }
     },
     optimization: {
         splitChunks: {
             chunks: 'async',
             minSize: 20000,
             minRemainingSize: 0,
-            maxSize: 0,
             minChunks: 1,
             maxAsyncRequests: 30,
             maxInitialRequests: 30,

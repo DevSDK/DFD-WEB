@@ -3,8 +3,8 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar, NavDropdown, Container, Row, Col, Button, Badge, Card } from 'react-bootstrap/';
 const AboutPage: React.FC = () => {
-    var list = ["GoLang", "Gin-Gonic", "Redis", "JWT", "Kubernetes", "Docker", "OAuth2", "GridFS", "Swagger", "React"]
-    var stacks = list.map((e) => <Badge key={e} style={{ marginRight: "5px" }} pill variant="primary">{e}</Badge>)
+    const list = ["GoLang", "Gin-Gonic", "Redis", "JWT", "Kubernetes", "Docker", "OAuth2", "GridFS", "Swagger", "React"]
+    const stacks = list.map((e) => <Badge key={e} style={{ marginRight: "5px" }} pill variant="primary">{e}</Badge>)
     return (
         <Container>
             <Row>

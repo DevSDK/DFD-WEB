@@ -10,7 +10,7 @@ const NavigationUser: React.FC = () => {
     const UserLoaded = useSelector((state: any) => state.UserReducer.isUserLoaded)
 
     if (Object.entries(User.toJS()).length > 0) {
-        var UserNav = <Spinner animation="grow" />
+        let UserNav = <Spinner animation="grow" />
         if (UserLoaded)
             UserNav = <Nav>
                 <Nav.Link as={Link} to="/user"><img src={configs.v1ApiBase + "/image/" + User.get("profile_image")}
@@ -28,7 +28,7 @@ const NavigationUser: React.FC = () => {
             </Navbar.Collapse>
         )
     }
-    var LoginNav = <Spinner animation="grow" />
+    let LoginNav = <Spinner animation="grow" />
     if (UserLoaded) {
         LoginNav = <Nav>
             <Nav.Link href={configs.authApiBase + "/login"}>Login</Nav.Link>

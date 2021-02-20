@@ -6,7 +6,7 @@ import LOLGameElement from './GameListElement'
 import { IGame } from '../../utils/GameDataUtils'
 import { AutoSizer, List as VirtualizedList, CellMeasurer, CellMeasurerCache, ListRowProps } from 'react-virtualized';
 
-import { Map, List } from 'immutable'
+import { List } from 'immutable'
 
 interface IProps {
     gamelist: List<IGame>

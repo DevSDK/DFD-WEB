@@ -16,7 +16,7 @@ const UserPage: React.FC<IProps> = ({ location }) => {
 
     const User = useSelector((state: any) => state.UserReducer.User)
 
-    var edit = false;
+    let edit = false;
     if (location != undefined) {
         const query = qs.parse(location.search, { ignoreQueryPrefix: true })
         edit = query.edit === 'true';
@@ -30,7 +30,7 @@ const UserPage: React.FC<IProps> = ({ location }) => {
         history.replace('/user')
     }
 
-    var EditButton = <Button className="float-right" onClick={editClick}>Edit</Button>
+    let EditButton = <Button className="float-right" onClick={editClick}>Edit</Button>
     if (edit) {
         EditButton = <div>
             <Button className="float-right" variant="danger" onClick={cancelClick}>Cancel</Button>

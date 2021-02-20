@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactApexChart from "react-apexcharts"
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const LOLFrequencyChart: React.FC<IProps> = (props: IProps) => {
-    var HeatMapOption = {
+    const HeatMapOption = {
         chart: {
             type: 'heatmap',
             toolbar: { show: false, autoSelected: '' }

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface IProps {
     toggle: boolean,
-    onClick: any,
+    onClick: MouseEventHandler,
     text: string
 
 }
 
 const DFDButton: React.FC<IProps> = (props) => {
-    var color = "black"
+    let color = "black"
     if (props.toggle) {
         color = "cyan"
     }

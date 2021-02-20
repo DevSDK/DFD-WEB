@@ -18,21 +18,21 @@ interface IProps {
 
 class LOLGameElement extends Component<IProps>  {
     render() {
-        var GameBorder = "red"
-        var Background = "#ff8f82"
-        var winText = <div className="GameElementText ">패배</div>
+        let GameBorder = "red"
+        let Background = "#ff8f82"
+        let winText = <div className="GameElementText ">패배</div>
         if (this.props.win) {
             GameBorder = "#green"
             Background = "#7affa4"
             winText = <div className="GameElementText ">승리</div>
         }
-        var members = this.props.members.map(v => <Badge key={v} className="VerticalCenter" pill variant="secondary" style={{ marginLeft: "5px", marginTop: "5px" }}>{v}</Badge>)
+        const members = this.props.members.map(v => <Badge key={v} className="VerticalCenter" pill variant="secondary" style={{ marginLeft: "5px", marginTop: "5px" }}>{v}</Badge>)
         const date = new Date(this.props.timestamp).toLocaleString("ko-KR")
         const ago = moment(this.props.timestamp).fromNow()
 
-        var game = GameDataUtils.ConvertFromQueueID(this.props.queueid + "")
-        var blitzTarget = this.props.members[Math.floor(Math.random() * this.props.members.length)]
-        
+        const game = GameDataUtils.ConvertFromQueueID(this.props.queueid + "")
+        const blitzTarget = this.props.members[Math.floor(Math.random() * this.props.members.length)]
+
         return (
             <Card style={{ backgroundColor: Background, borderColor: GameBorder, height: "90%", borderStyle: "solid", borderWidth: "1.5px", marginRight: "2px" }}  >
                 <Card.Body>
@@ -58,12 +58,11 @@ class LOLGameElement extends Component<IProps>  {
                             <Col className="VerticalCenter">
                                 <Row>
                                     <Col lg={10}  > {members}</Col>
-                                    <Col lg={2} > <Button size="sm" variant="link" onClick={e => {
+                                    <Col lg={2} > <Button size="sm" variant="link" onClick={() => {
                                         window.open("https://blitz.gg/lol/match/kr/" + blitzTarget + "/" + this.props.gameid, '_blank')
                                     }}>Blitz</Button></Col>
                                 </Row>
                             </Col>
-
                         </Row>
                     </Container>
                 </Card.Body>

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import setCookie from './Cookie'
 import configs from '../config.json';
 import 'babel-polyfill';
@@ -11,12 +11,14 @@ function ressetAuth(): void {
     APIUtil.logout()
 }
 
+type axios_request_method<R = AxiosResponse> = (url: string, data?: AxiosRequestConfig, config?: AxiosRequestConfig) => Promise<R>
+
 class APIUtil {
-    static async logout(): Promise<any> {
+    static async logout(): Promise<string> {
         return new Promise((resolve, reject) => {
-            var access = localStorage.getItem("access")
-            var refresh = localStorage.getItem("refresh")
-            var header: { [name: string]: any } = {}
+            const access = localStorage.getItem("access")
+            const refresh = localStorage.getItem("refresh")
+            const header: { [name: string]: string | null } = {}
             header['Authorization'] = access
             header['X-Dfd-Refresh'] = refresh
 
@@ -30,7 +32,7 @@ class APIUtil {
                 localStorage.setItem("refresh", "")
             }
 
-            ).catch(error => {
+            ).catch(() => {
                 reject("unautheroized")
                 localStorage.setItem("access", "")
                 localStorage.setItem("refresh", "")
@@ -49,16 +51,16 @@ class APIUtil {
                 resolve(response.data)
             }
 
-            ).catch(error => {
+            ).catch(() => {
                 reject("unautheroized")
             })
         })
     }
 
-    static async token_refresh(header: { [name: string]: any }): Promise<any> {
+    static async token_refresh(header: { [name: string]: string | null }): Promise<AxiosResponse> {
         return new Promise((resolve, reject) => {
-            var refresh = localStorage.getItem("refresh")
-            var access = localStorage.getItem("access")
+            const refresh = localStorage.getItem("refresh")
+            const access = localStorage.getItem("access")
             if (access === "" || refresh === "") {
                 reject({ "reason": "Token invalid" })
                 return
@@ -74,10 +76,10 @@ class APIUtil {
         })
     }
 
-    static async _request(url: string, method: Function, data: any = null): Promise<any> {
+    static async _request(url: string, method: axios_request_method, data: any = null): Promise<any> {
         return new Promise((resolve, reject) => {
-            var header: { [name: string]: any } = {}
-            var token = localStorage.getItem("access")
+            const header: { [name: string]: string | null } = {}
+            const token = localStorage.getItem("access")
             if (token !== "") {
                 header['Authorization'] = token;
             }
@@ -96,7 +98,7 @@ class APIUtil {
 
                     if (error.response.data["status"] == 401) {
                         if (error.response.data["token_expired"]) {
-                            APIUtil.token_refresh(header).then(_ => {
+                            APIUtil.token_refresh(header).then(() => {
                                 (method(url, { headers: header }) as Promise<any>).then(response => {
                                     resolve(response.data)
                                 })
@@ -124,7 +126,7 @@ class APIUtil {
                     }
                     if (error.response.data["status"] == 401) {
                         if (error.response.data["token_expired"]) {
-                            APIUtil.token_refresh(header).then(_ => {
+                            APIUtil.token_refresh(header).then(() => {
                                 (method(url, data, { headers: header }) as Promise<any>).then(response => {
                                     resolve(response.data)
                                 })
@@ -150,7 +152,7 @@ class APIUtil {
         return APIUtil._request(url, axios.patch, data)
     }
 
-    static async post(url: string, data: any) {
+    static async post(url: string, data: any) : Promise<any> {
         return APIUtil._request(url, axios.post, data)
     }
 }

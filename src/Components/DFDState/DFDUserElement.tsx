@@ -14,7 +14,7 @@ interface IProps {
 const DFDUserElement: React.FC<IProps> = (props: IProps) => {
     const date = new Date(props.state_created)
 
-    var date_string = ""
+    let date_string = ""
     if (date.getFullYear() > 2000) {
         date_string = date.toLocaleString("ko-KR")
     }

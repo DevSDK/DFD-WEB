@@ -20,7 +20,7 @@ class LogoutPage extends Component<any, IState> {
         APIUtil.logout().then(() => {
             this.props.onResetUser()
             this.setState({ isLoaded: true })
-        }).catch(err => {
+        }).catch(() => {
             this.props.onResetUser()
             this.setState({ isLoaded: true })
         })

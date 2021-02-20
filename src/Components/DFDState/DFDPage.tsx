@@ -11,7 +11,7 @@ import Chart from "react-apexcharts"
 import { connect } from 'react-redux';
 
 import configs from '../../config.json'
-import { setUser } from '../../State/User';
+import { setUser, User } from '../../State/User';
 
 interface IProps {
     User: any,
@@ -21,7 +21,7 @@ interface IProps {
 interface IState {
     current: { [name: string]: boolean },
     statics: number[],
-    userlist: any[],
+    userlist: User[],
 }
 
 class DFDPageComponent extends Component<IProps, IState> {
@@ -34,12 +34,12 @@ class DFDPageComponent extends Component<IProps, IState> {
     }
 
     async getUserList(arr: []) {
-        var userlist = []
-        var counts = [0, 0, 0, 0]
-        for (var user of arr) {
-            var result = await APIUtil.get(configs.v1ApiBase + `/user/` + user)
+        const userlist = []
+        const counts = [0, 0, 0, 0]
+        for (const user of arr) {
+            const result = await APIUtil.get(configs.v1ApiBase + `/user/` + user)
             userlist.push(result["user"])
-            var v = result["user"]
+            const v = result["user"]
             if (v.state.search("없") > 0)
                 continue
             if (v.state.search("롤") > 0)
@@ -58,12 +58,12 @@ class DFDPageComponent extends Component<IProps, IState> {
 
     async updateList() {
         if (this.context !== null) {
-            var users = await APIUtil.get(configs.v1ApiBase + `/userlist`)
+            const users = await APIUtil.get(configs.v1ApiBase + `/userlist`)
             this.getUserList(users["user"])
         }
     }
     postServer() {
-        var cur = ""
+        let cur = ""
         if (this.state.current["롤"])
             cur += "롤"
         if (this.state.current["야"])
@@ -72,15 +72,15 @@ class DFDPageComponent extends Component<IProps, IState> {
             cur += "탈"
         if (this.state.current["블"])
             cur += "블"
-        var postFix = "없"
+        let postFix = "없"
         if (this.state.current["OK"]) {
             postFix = "있"
         }
-        var stateString = "오" + cur + postFix
-        var currentUser = this.props.User.toJS()
+        const stateString = "오" + cur + postFix
+        const currentUser = this.props.User.toJS()
         currentUser.state = stateString
         APIUtil.post(configs.v1ApiBase + "/state", { state: stateString }).then(
-            (_: any) => {
+            () => {
                 this.props.setUserState(currentUser)
             }
         )
@@ -89,7 +89,7 @@ class DFDPageComponent extends Component<IProps, IState> {
     componentDidMount() {
         const UserStatus = this.props.User.get("state");
         if (UserStatus[0] === "오") {
-            var status = this.state.current
+            const status = this.state.current
             if (UserStatus.search("롤") > 0)
                 status["롤"] = true
             if (UserStatus.search("야") > 0)
@@ -117,7 +117,7 @@ class DFDPageComponent extends Component<IProps, IState> {
 
 
     onClickDFDButton(id: string) {
-        var modified = this.state.current
+        const modified = this.state.current
         if (id === "OK") {
             modified["OK"] = true
         } else if (id === "NO") {
@@ -130,8 +130,8 @@ class DFDPageComponent extends Component<IProps, IState> {
     }
 
     render() {
-        var chart = (<div></div>)
-        var options = {
+        let chart = (<div></div>)
+        const options = {
             chart: {
                 type: 'pie',
             },

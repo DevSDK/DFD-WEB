@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DFDPageComponent from "../Components/DFDState/DFDPage"
 
 import { useSelector } from 'react-redux';
 
-const DFDPage = () => {
-
+const DFDPage: React.FC = () => {
     const User = useSelector((state: any) => state.UserReducer.User)
 
     if (Object.entries(User.toJS()).length == 0) {

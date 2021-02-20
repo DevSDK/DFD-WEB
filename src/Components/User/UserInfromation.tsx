@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Card, Col, Container, Button, Form } from 'react-bootstrap/';
+import React, { useState } from 'react';
+import { Card, Col, Form } from 'react-bootstrap/';
 import '../../App.css'
 import APIUtil from '../../utils/API'
 import { useHistory } from "react-router-dom";
@@ -17,7 +17,7 @@ const UserInformation: React.FC<IProps> = (props) => {
     const dispatch = useDispatch()
     const User = useSelector((state: any) => state.UserReducer.User)
     const setUserState = (user: any) => dispatch(setUser(user));
-    var CurrentUser: User = User.toJS()
+    const CurrentUser: User = User.toJS()
     const history = useHistory()
     const [username, setUsername] = useState(CurrentUser.username);
     const [lol_name, setLoLname] = useState(CurrentUser.lol_name);
@@ -29,13 +29,13 @@ const UserInformation: React.FC<IProps> = (props) => {
         formdata.forEach(function (value, prop) {
             json[prop] = value
         })
-        var body: { [name: string]: any } = {}
+        let body: { [name: string]: any } = {}
 
         if (json["image"].size > 0) {
             if (ImageUtils.checkTypes(json["image"].type)) {
-                var base64 = await ImageUtils.getBase64(json["image"])
+                const base64 = await ImageUtils.getBase64(json["image"])
                 try {
-                    var res = await APIUtil.post(configs.v1ApiBase + "/image", { "img": base64 })
+                    const res = await APIUtil.post(configs.v1ApiBase + "/image", { "img": base64 })
                     body["profile_image_id"] = res["id"]
                 } catch (e) {
                     alert("Image Upload Error")
@@ -54,7 +54,7 @@ const UserInformation: React.FC<IProps> = (props) => {
         }
 
         if (body["username"] !== undefined || body["profile_image_id"] !== undefined) {
-            APIUtil.patch(configs.v1ApiBase + `/user`, body).then(result => {
+            APIUtil.patch(configs.v1ApiBase + `/user`, body).then(() => {
                 setUserState(CurrentUser)
                 history.replace("/user")
             }).catch(err => {
@@ -66,7 +66,7 @@ const UserInformation: React.FC<IProps> = (props) => {
         if (json["lol_name"] !== CurrentUser.lol_name) {
             body = {}
             body["lol_username"] = lol_name
-            APIUtil.patch(configs.v1ApiBase + `/user/lol`, body).then(result => {
+            APIUtil.patch(configs.v1ApiBase + `/user/lol`, body).then(() => {
                 CurrentUser.lol_name = json["lol_name"]
                 setUserState(CurrentUser)
                 history.replace("/user")
@@ -102,7 +102,7 @@ const UserInformation: React.FC<IProps> = (props) => {
         )
     } else {
 
-        var lolname = "You should set lol username"
+        let lolname = "You should set lol username"
         if (User.lol_name !== "") {
             lolname = User.get("lol_name")
         }

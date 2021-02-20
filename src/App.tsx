@@ -14,18 +14,8 @@ import LoginPage from "./Pages/Login"
 import LogoutPage from "./Pages/Logout"
 
 class App extends Component {
-
-
-    componentDidUpdate() {
-
-    }
-    componentDidMount() {
-    }
-    render() {
-        
-
+    render() : React.ReactNode {
         return (
-
             <div className="App">
                 <Navbar collapseOnSelect expand="sm" bg="primary" variant="dark">
                     <Navbar.Brand as={Link} to="/">DFD</Navbar.Brand>

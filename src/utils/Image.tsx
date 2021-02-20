@@ -10,9 +10,9 @@ class ImageUtil {
         }
         return false;
     }
-    static getBase64(file: Blob): Promise<any> {
+    static getBase64(file: Blob): Promise<string | ArrayBuffer | null> {
         return new Promise((resolve, reject) => {
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function () {
                 resolve(reader.result);
