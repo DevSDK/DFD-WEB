@@ -5,16 +5,14 @@ import { Nav, Navbar, Spinner } from 'react-bootstrap/';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import configs from "../../config.json"
-const NavigationUser: React.FC = () => {
-    const User = useSelector((state: any) => state.UserReducer.User)
-    const UserLoaded = useSelector((state: any) => state.UserReducer.isUserLoaded)
-
-    if (Object.entries(User.toJS()).length > 0) {
+import withUser from '../HOCS/withUser';
+const NavigationUser: React.FC<any> = (props) => {
+    if (props.user != null) {
         let UserNav = <Spinner animation="grow" />
-        if (UserLoaded)
+        if (props.IsUserLoaded)
             UserNav = <Nav>
-                <Nav.Link as={Link} to="/user"><img src={configs.v1ApiBase + "/image/" + User.get("profile_image")}
-                    style={{ marginRight: "5px", height: "25px" }}></img>{User.get("username")}</Nav.Link>
+                <Nav.Link as={Link} to="/user"><img src={configs.v1ApiBase + "/image/" + props.user.get("profile_image")}
+                    style={{ marginRight: "5px", height: "25px" }}></img>{props.user.get("username")}</Nav.Link>
                 <Nav.Link href="/dfd/logout">Logout</Nav.Link>
             </Nav>
 
@@ -29,7 +27,7 @@ const NavigationUser: React.FC = () => {
         )
     }
     let LoginNav = <Spinner animation="grow" />
-    if (UserLoaded) {
+    if (props.IsUserLoaded) {
         LoginNav = <Nav>
             <Nav.Link href={configs.authApiBase + "/login"}>Login</Nav.Link>
         </Nav>
@@ -45,4 +43,4 @@ const NavigationUser: React.FC = () => {
     );
 };
 
-export default NavigationUser;
+export default withUser(NavigationUser, true);
