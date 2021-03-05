@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import APIUtil from '../utils/API'
 import { connect } from 'react-redux'
-import { Route, Link, Redirect } from 'react-router-dom';
 import { resetUser } from "../State/User"
 
 interface IState {

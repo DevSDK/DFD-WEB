@@ -2,17 +2,15 @@ import React from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DFDPageComponent from "../Components/DFDState/DFDPage"
+import withUser from '../Components/HOCS/withUser';
 
-import { useSelector } from 'react-redux';
+const DFDPage: React.FC<any> = (props) => {
 
-const DFDPage: React.FC = () => {
-    const User = useSelector((state: any) => state.UserReducer.User)
-
-    if (Object.entries(User.toJS()).length == 0) {
+    if (Object.entries(props.user.toJS()).length == 0) {
         return (<div>You should login</div>)
     }
 
-    if (User.get("role") === "guest") {
+    if (props.user.get("role") === "guest") {
         return <div>You may need request your role update to admin</div>
     }
     return (
@@ -20,4 +18,4 @@ const DFDPage: React.FC = () => {
     );
 };
 
-export default DFDPage;
+export default withUser(DFDPage);

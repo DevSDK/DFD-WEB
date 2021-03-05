@@ -2,7 +2,7 @@
 
 This is a dfd web application.
 
-First version of DFD-WEB is written by puer javascript and React with react spa application.
+First version of DFD-WEB is written by puer javascript and React with react create app.
 
 For user state, It used React-Context.
 

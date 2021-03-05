@@ -7,17 +7,17 @@ import ImageUtils from "../../utils/Image"
 import configs from "../../config.json"
 import { setUser, User } from "../../State/User"
 import { useSelector, useDispatch } from 'react-redux';
-
+import withUser from '../HOCS/withUser'
 interface IProps {
-    edit: boolean
+    edit: boolean,
+    user: any
 }
 
 const UserInformation: React.FC<IProps> = (props) => {
-
     const dispatch = useDispatch()
-    const User = useSelector((state: any) => state.UserReducer.User)
+    const User = props.user
     const setUserState = (user: any) => dispatch(setUser(user));
-    const CurrentUser: User = User.toJS()
+    const CurrentUser: User = props.user.toJS()
     const history = useHistory()
     const [username, setUsername] = useState(CurrentUser.username);
     const [lol_name, setLoLname] = useState(CurrentUser.lol_name);
@@ -119,4 +119,4 @@ const UserInformation: React.FC<IProps> = (props) => {
     }
 
 }
-export default UserInformation
+export default withUser(UserInformation)
