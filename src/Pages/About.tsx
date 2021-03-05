@@ -1,7 +1,9 @@
+/** @jsx jsx */
 import React from 'react';
-import '../App.css';
+import { css, jsx } from '@emotion/react'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav, Navbar, NavDropdown, Container, Row, Col, Button, Badge, Card } from 'react-bootstrap/';
+import { Container, Row, Col, Button, Badge, Card } from 'react-bootstrap/';
 const AboutPage: React.FC = () => {
     const list = ["GoLang", "Gin-Gonic", "Redis", "JWT", "Kubernetes", "Docker", "OAuth2", "GridFS", "Swagger", "React"]
     const stacks = list.map((e) => <Badge key={e} style={{ marginRight: "5px" }} pill variant="primary">{e}</Badge>)
@@ -9,7 +11,7 @@ const AboutPage: React.FC = () => {
         <Container>
             <Row>
                 <Col style={{ margin: "auto" }} >
-                    <Card body style={{ marginTop: "20px" }}>
+                    <Card body css = {AboutCardStyle}>
                         <h3>
                             About
                     </h3>
@@ -40,4 +42,7 @@ const AboutPage: React.FC = () => {
     );
 };
 
+const AboutCardStyle = css`
+    margin-top: 20px;
+`
 export default AboutPage;

@@ -10,7 +10,9 @@
       "skipLibCheck": true,
       "isolatedModules": true,
       "esModuleInterop": true,
-      "resolveJsonModule": true
+      "resolveJsonModule": true,
+      "types":["@emotion/react/types/css-prop"],
+      "lib":["es2020", "dom"]
     },
     "include": ["src"]
   }

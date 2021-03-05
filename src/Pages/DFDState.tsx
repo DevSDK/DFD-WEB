@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DFDPageComponent from "../Components/DFDState/DFDPage"
 import withUser from '../Components/HOCS/withUser';

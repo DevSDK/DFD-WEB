@@ -1,4 +1,7 @@
+/** @jsx jsx */
 import React, { Component } from 'react';
+import { css, jsx } from '@emotion/react'
+
 import '../../App.css'
 import { Card, Col, Container, Button, Row } from 'react-bootstrap/';
 
@@ -26,7 +29,7 @@ interface IState {
 
 class DFDPageComponent extends Component<IProps, IState> {
 
-    interval?: NodeJS.Timeout
+    interval?: ReturnType<typeof setTimeout>;
 
     constructor(props: any) {
         super(props)
@@ -156,19 +159,19 @@ class DFDPageComponent extends Component<IProps, IState> {
         return (
             <div>
                 <Container >
-                    <Row style={{ marginTop: "25px" }}>
+                    <Row css={RowMarginStyle}>
                         <Col sm={6}>
                             <Card className="Status-Height">
                                 <Card.Body>
-                                    <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "50px" }}>오</div>
-                                    <div style={{ textAlign: "center" }}>
+                                    <div css={TitleTextStyle}>오</div>
+                                    <div css={TextCenterStyle}>
                                         <DFDButton toggle={this.state.current["롤"]} onClick={() => { this.onClickDFDButton("롤") }} text="롤"></DFDButton>
                                         <DFDButton toggle={this.state.current["야"]} onClick={() => { this.onClickDFDButton("야") }} text="야"></DFDButton>
                                         <DFDButton toggle={this.state.current["탈"]} onClick={() => { this.onClickDFDButton("탈") }} text="탈"></DFDButton>
                                         <DFDButton toggle={this.state.current["블"]} onClick={() => { this.onClickDFDButton("블") }} text="블"></DFDButton>
                                     </div>
 
-                                    <div style={{ textAlign: "center" }}>
+                                    <div css={TextCenterStyle}>
                                         <DFDButton toggle={this.state.current["OK"]} onClick={() => { this.onClickDFDButton("OK") }} text="있"></DFDButton>
                                         <DFDButton toggle={!this.state.current["OK"]} onClick={() => { this.onClickDFDButton("NO") }} text="없"></DFDButton>
                                     </div>
@@ -182,7 +185,7 @@ class DFDPageComponent extends Component<IProps, IState> {
                         </Card>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: "25px" }}>
+                    <Row css={RowMarginStyle}>
                         <Col sm={12}>
                             <Card className="Users">
                                 <Card.Body style={{ overflowY: "scroll" }}>
@@ -207,6 +210,18 @@ const mapDispatchToProps = (dispatch: any) => ({
     setUserState: (user: any) => dispatch(setUser(user))
 })
 
+const TextCenterStyle = css`
+    text-align:center;
+`
 
+const TitleTextStyle = css`
+    ${TextCenterStyle};
+    font-weight:bold;
+    font-size: 50px;
+`
+
+const RowMarginStyle = css`
+    margin-top:25px;
+`
 
 export default connect(mapStateToProps, mapDispatchToProps)(DFDPageComponent)

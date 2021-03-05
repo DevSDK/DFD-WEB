@@ -1,4 +1,7 @@
+/** @jsx jsx */
 import React, { useState } from 'react';
+import { css, jsx } from '@emotion/react'
+
 import { Card, Col, Form } from 'react-bootstrap/';
 import '../../App.css'
 import APIUtil from '../../utils/API'
@@ -8,6 +11,8 @@ import configs from "../../config.json"
 import { setUser, User } from "../../State/User"
 import { useSelector, useDispatch } from 'react-redux';
 import withUser from '../HOCS/withUser'
+
+
 interface IProps {
     edit: boolean,
     user: any
@@ -101,7 +106,6 @@ const UserInformation: React.FC<IProps> = (props) => {
             </Form>
         )
     } else {
-
         let lolname = "You should set lol username"
         if (User.lol_name !== "") {
             lolname = User.get("lol_name")
@@ -109,14 +113,20 @@ const UserInformation: React.FC<IProps> = (props) => {
         return (
             <Card.Body>
                 <Card.Title>{User.get("username")}</Card.Title>
-                <img style={{ maxWidth: "50%" }} src={configs.v1ApiBase + "/image/" + User.get("profile_image")} alt="Profile Image not found"></img>
-                <Card.Text><span style={{ fontWeight: "bold" }}>Email: </span>{User.get("email")}</Card.Text>
-                <Card.Text><span style={{ fontWeight: "bold" }}>LOL Name: </span>{lolname}</Card.Text>
-                <Card.Text> <span style={{ fontWeight: "bold" }}>Role: </span>{User.get("role")}</Card.Text>
-                <Card.Text> <span style={{ fontWeight: "bold" }}>Registered: </span>{User.get("created")}</Card.Text>
+                <img css={ProfileImageStyle} src={configs.v1ApiBase + "/image/" + User.get("profile_image")} alt="Profile Image not found"></img>
+                <Card.Text><span css={InformationLabel}>Email: </span>{User.get("email")}</Card.Text>
+                <Card.Text><span css={InformationLabel}>LOL Name: </span>{lolname}</Card.Text>
+                <Card.Text> <span css={InformationLabel}>Role: </span>{User.get("role")}</Card.Text>
+                <Card.Text> <span css={InformationLabel}>Registered: </span>{User.get("created")}</Card.Text>
             </Card.Body>
         )
     }
-
 }
+
+const InformationLabel = css`
+    font-weight:bold;
+`
+const ProfileImageStyle = css`
+    width:50%
+`
 export default withUser(UserInformation)

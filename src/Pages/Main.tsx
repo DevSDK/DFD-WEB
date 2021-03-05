@@ -1,4 +1,7 @@
+/** @jsx jsx */
 import React, { Component, CSSProperties, ReactNode } from 'react';
+import { css, jsx } from '@emotion/react'
+
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Spinner, Container, Row, Col, Card } from 'react-bootstrap/';
@@ -29,7 +32,7 @@ class MainPage extends Component<any, IState> {
             TotalGameCountData: Map()
         }
     }
-    async processData(data: any) : Promise<void>  {
+    async processData(data: any): Promise<void> {
         (async () => {
             //FIXME: Hrad Coded year
             const HeatMap = GameDataUtils.GetFrequencyArray(data["data"])
@@ -45,7 +48,7 @@ class MainPage extends Component<any, IState> {
         })();
     }
 
-    async requestAndSetState() : Promise<void> {
+    async requestAndSetState(): Promise<void> {
         APIUtil.get(configs.v1ApiBase + "/lol/histories").then(gamedata => {
             this.setState({ gamelist: this.state.gamelist.concat(gamedata["games"]) })
         })
@@ -54,15 +57,14 @@ class MainPage extends Component<any, IState> {
         })
     }
 
-    componentDidMount() : void{
+    componentDidMount(): void {
         this.requestAndSetState()
     }
 
-    render() : ReactNode {
-        const centerStyle: CSSProperties = { position: "absolute", top: "47%", left: "47%", translate: "translate(-50%, -50%)" }
-        let heatmap = <Spinner style={centerStyle} animation="grow" />
-        let GameList = <Spinner style={centerStyle} animation="grow" />
-        let ResultChart = <Spinner style={centerStyle} animation="grow" />
+    render(): ReactNode {
+        let heatmap = <Spinner css={CenterStyle} animation="grow" />
+        let GameList = <Spinner css={CenterStyle} animation="grow" />
+        let ResultChart = <Spinner css={CenterStyle} animation="grow" />
 
         if (this.state.HeatmapData.size > 0)
             heatmap = <LOLFrequencyChart HeatmapData={this.state.HeatmapData}></LOLFrequencyChart>
@@ -85,17 +87,17 @@ class MainPage extends Component<any, IState> {
                 total += value.count
                 total_win += value.win
                 const percent = Math.floor((value.win / value.count) * 100)
-                elements.push(<span key={key} style={{ color: "grey", fontSize: "12px" }}>&nbsp;
+                elements.push(<span key={key} css={WinRatiosPerModesTextStyle}>&nbsp;
                 {GameDataUtils.ConvertFromQueueID(key)} : {value.win}W {value.count - value.win}L {value.count}G({percent}%) </span>)
             }
             const TotalWinWinraito = Math.floor((total_win / total) * 100)
-            TotalWinRatoElement = <h5 style={{ textAlign: "center", marginTop: "-5px" }}>Total: {total_win}W {total - total_win}L {total}G({TotalWinWinraito}%)</h5>
+            TotalWinRatoElement = <h5 css={TotalRaitoTextStyle}>Total: {total_win}W {total - total_win}L {total}G({TotalWinWinraito}%)</h5>
             ElementPerGames = <div> {elements} </div>
         }
 
         return (
             <Container >
-                <Row style={{ marginTop: "25px" }}>
+                <Row css={RowStyle}>
                     <Col sm={6}>
                         <Card className="ChartCard">
                             <Card.Body>
@@ -110,25 +112,24 @@ class MainPage extends Component<any, IState> {
                     </Card>
                     </Col>
                 </Row>
-                <Row style={{ marginTop: "25px" }}>
-                    <Col sm={12}><Card style={{ minHeight: "75px", marginBottom: "-10px" }}>
-                        <Card.Body style={{ margin: "auto" }}>
-
-                            <div style={{ margin: "auto", textAlign: "center" }}>
-                                {TotalWinRatoElement}
-                                <div style={{ margin: "auto", textAlign: "center" }}>
-                                    {ElementPerGames}
+                <Row css={RowStyle}>
+                    <Col sm={12}>
+                        <Card css={WinRaitosCardStyle}>
+                            <Card.Body css={AlignCenterStyle}>
+                                <div>
+                                    {TotalWinRatoElement}
+                                    <div>
+                                        {ElementPerGames}
+                                    </div>
                                 </div>
-                            </div>
-                        </Card.Body>
-                    </Card>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
-
-                <Row style={{ marginTop: "25px" }}>
+                <Row css={RowStyle}>
                     <Col sm={12}>
                         <Card >
-                            <Card.Body style={{ height: "450px" }}>
+                            <Card.Body css={GameResultListStyle}>
                                 {GameList}
                             </Card.Body>
                         </Card>
@@ -139,4 +140,36 @@ class MainPage extends Component<any, IState> {
         )
     }
 }
+const CenterStyle = css`
+    position: absolute;
+    top: 47%;
+    left: 47%;
+    translate: translate(-50%, -50%);
+`
+const AlignCenterStyle = css`
+    margin:auto;
+    text-align: center;
+`
+
+const WinRaitosCardStyle = css`
+    margin-bottom: -10px;
+    margin-height: 75px;
+`
+
+const WinRatiosPerModesTextStyle = css`
+    color:grey;
+    font-size:12px;
+`
+
+const TotalRaitoTextStyle = css`
+    text-align:center;
+    margin-top:-5px;
+`
+const RowStyle = css`
+    margin-top : 25px;
+`
+
+const GameResultListStyle = css`
+    height:450px;
+`
 export default MainPage;
